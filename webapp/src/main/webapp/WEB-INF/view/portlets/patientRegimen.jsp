@@ -9,7 +9,11 @@
 
 			<openmrs:portlet url="patientRegimenCurrent" id="patientRegimenCurrent" patientId="${patient.patientId}" parameters="displayDrugSetIds=${model.displayDrugSetIds},*|displayFutureRegimens=true" />
 			
-			<span class="regimenPortletSpan"><input type="button" onclick="showHideDiv('regimenPortletAddForm');" value="(+) <openmrs:message code="DrugOrder.regimens.addOrChange" />"></span>
+			<span class="regimenPortletSpan">
+				<input type="button" onclick="showHideDiv('regimenPortletAddForm');" value="(+) <openmrs:message code="DrugOrder.regimens.addOrChange" />">
+				<input type="button" onclick="showHideDiv('regimenPortletAddForm');" value="(+/-) <openmrs:message code="DrugOrder.regimens.addOrChange" />">
+			</span>
+			
 			<div id="regimenPortletAddForm" style="display:none; border: 1px dashed black; padding: 10px;">
 				<table width="100%" class="patientRegimenTable">
 					<tr class="patientRegimenRow">
