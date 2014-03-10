@@ -14,7 +14,7 @@
 				parameters="displayDrugSetIds=${model.displayDrugSetIds},*|displayFutureRegimens=true" />
 
 			<span class="regimenPortletSpan"> 
-				<input type="button" onclick="showHideDiv('regimenPortletAddForm');" value="(+) <openmrs:message code="DrugOrder.regimens.addOrChange" />">
+				<input type="button" onclick="showHideDiv('regimenPortletAddForm');" value="(+) <openmrs:message code="DrugOrder.regimens.current" />">
 				<input type="button" onclick="showHideDiv('regimenPortletModifyForm');" value="(+/-) Modify Dosage">
 			</span>
 
@@ -237,8 +237,13 @@
 								<tr class="patientAddFlexibleRow">
 									<td class="patientAddFlexibleData"><openmrs:message
 											code="DrugOrder.drug" /></td>
-									<td class="patientAddFlexibleData"><input id="drugDisplay"
-										type="text" /> <input id="drug" type="hidden" name="drug" />
+									<td class="patientAddFlexibleData">
+										<select name="drug" id="drug">
+										<% for ( int i = 1; i <= 10; i++ ) { %>
+											<option
+												value="<%= i %>/<openmrs:message code="DrugOrder.drug" />"><%= i %>/
+												<openmrs:message code="DrugOrder.drug" /></option>
+											<% } %></select>
 									</td>
 								</tr>
 								<tr class="patientAddFlexibleRow">
@@ -246,7 +251,8 @@
 											code="DrugOrder.brandName" /></td>
 									<td class="patientAddFlexibleData"><openmrs:fieldGen
 											type="java.lang.String" formFieldName="brandName" val=""
-											parameters="noBind=true|isNullable=false" /></td>
+											parameters="noBind=true|isNullable=false" />
+									<input type="button" onclick="showHideDiv('regimenPortletModifyForm');" value="Modify top"></td>
 								</tr>
 								<tr class="patientAddFlexibleRow">
 									<td><openmrs:message code="DrugOrder.dose" /></td>
