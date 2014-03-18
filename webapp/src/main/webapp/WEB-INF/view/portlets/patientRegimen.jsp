@@ -305,7 +305,7 @@
 								</table>	
 								
 								<tr><input
-											type="button"
+											type="button" value="Modify"
 											value="<openmrs:message code="DrugOrder.regimen.addAndReplace" />"
 											onClick="addNewDrugOrder();"></span> <span id="addNew"
 										style="display: none"><input type="button"
