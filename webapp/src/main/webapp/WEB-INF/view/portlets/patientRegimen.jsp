@@ -293,19 +293,18 @@
 									</td>
 								</tr>
 								<table width="100%" class="patientRegimenTable">
-									<tr>
-										<td>
-											<input type="button" onclick="showHideDiv('regimenPortletModifyForm');" value="Modify top3">
-										</td>
-									</tr>
-								</table>	
-								<tr id="reasNew" style="display: none">
+								
+									
+											<tr id="reasNew" style="display: none">
 									<td class="patientRegimenReasonMsg"><openmrs:message
 											code="general.reason" />:</td>
 									<td class="patientRegimenReasonSelect"><select
 										name="reasonNew" id="reasonNew"></select></td>
-								</tr>
-								<tr>id="replaceNew" style="display: none"><input
+								
+									</tr>
+								</table>	
+								
+								<tr><input
 											type="button"
 											value="<openmrs:message code="DrugOrder.regimen.addAndReplace" />"
 											onClick="addNewDrugOrder();"></span> <span id="addNew"
