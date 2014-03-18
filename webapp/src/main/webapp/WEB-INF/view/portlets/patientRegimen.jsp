@@ -222,7 +222,7 @@
 			<div id="regimenPortletModifyForm"
 				style="display: none; border: 1px dashed black; padding: 10px;">
 				<table width="100%" class="patientRegimenTable">
-
+					
 				</table>
 
 
@@ -246,14 +246,7 @@
 											<% } %></select>
 									</td>
 								</tr>
-								<tr class="patientAddFlexibleRow">
-									<td class="patientAddFlexibleData"><openmrs:message
-											code="DrugOrder.brandName" /></td>
-									<td class="patientAddFlexibleData"><openmrs:fieldGen
-											type="java.lang.String" formFieldName="brandName" val=""
-											parameters="noBind=true|isNullable=false" />
-									<input type="button" onclick="showHideDiv('regimenPortletModifyForm');" value="Modify top"></td>
-								</tr>
+								
 								<tr class="patientAddFlexibleRow">
 									<td><openmrs:message code="DrugOrder.dose" /></td>
 									<td class="patientAddFlexibleData"><openmrs:fieldGen
@@ -296,31 +289,32 @@
 											code="general.dateStart" /></td>
 									<td class="patientAddFlexibleDate"><openmrs:fieldGen
 											type="java.util.Date" formFieldName="startDate" val=""
-											parameters="noBind=true" /></td>
-								</tr>
-								<tr class="patientAddFlexibleRow">
-									<td class="patientEmptyData"></td>
-									<td class="patientAddFlexibleActions">
-										<div id="actionNew" style="display: none;">
-											<select id="actionSelectNew"
-												onChange="handleStandardActionChangeNew();">
-												<option value=""><openmrs:message
-														code="DrugOrder.regimen.action.choose" /></option>
-												<option value="add"><openmrs:message
-														code="DrugOrder.regimen.action.addToCurrent" /></option>
-												<option value="discontinue"><openmrs:message
-														code="DrugOrder.regimen.action.discontinue.allCurrent" /></option>
-												<option value="void"><openmrs:message
-														code="DrugOrder.regimen.action.void.allCurrent" /></option>
-											</select>
-										</div>
+											parameters="noBind=false" />
 									</td>
 								</tr>
+								<table width="100%" class="patientRegimenTable">
+									<tr>
+										<td>
+											<input type="button" onclick="showHideDiv('regimenPortletModifyForm');" value="Modify top3">
+										</td>
+									</tr>
+								</table>	
 								<tr id="reasNew" style="display: none">
 									<td class="patientRegimenReasonMsg"><openmrs:message
 											code="general.reason" />:</td>
 									<td class="patientRegimenReasonSelect"><select
 										name="reasonNew" id="reasonNew"></select></td>
+								</tr>
+								<tr>id="replaceNew" style="display: none"><input
+											type="button"
+											value="<openmrs:message code="DrugOrder.regimen.addAndReplace" />"
+											onClick="addNewDrugOrder();"></span> <span id="addNew"
+										style="display: none"><input type="button"
+											value="<openmrs:message code="general.add" />"
+											onClick="addNewDrugOrder();"></span> <span id="cancelNew"
+										style="display: none"><input type="button"
+											value="<openmrs:message code="general.cancel" />"
+											onClick="cancelNewOrder();"></span>
 								</tr>
 								<tr class="patientAddFlexibleButtonRow">
 									<td colspan="2" align="center"
