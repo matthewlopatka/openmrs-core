@@ -304,16 +304,10 @@
 									</tr>
 								</table>	
 								
-								<tr><input
-											type="button" value="Modify"
-											value="<openmrs:message code="DrugOrder.regimen.addAndReplace" />"
-											onClick="addNewDrugOrder();"></span> <span id="addNew"
-										style="display: none"><input type="button"
-											value="<openmrs:message code="general.add" />"
-											onClick="addNewDrugOrder();"></span> <span id="cancelNew"
-										style="display: none"><input type="button"
-											value="<openmrs:message code="general.cancel" />"
-											onClick="cancelNewOrder();"></span>
+								<tr>
+											<input type="button" value="Modify" onClick="addNewDrugOrder();">
+											<input type="button" value="<openmrs:message code="general.add" />" onClick="addNewDrugOrder();">
+											<input type="button" value="<openmrs:message code="general.cancel" />" onClick="cancelNewOrder();">
 								</tr>
 								<tr class="patientAddFlexibleButtonRow">
 									<td colspan="2" align="center"
