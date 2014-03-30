@@ -3,7 +3,7 @@
 <% java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis()); %>
 
 <div id="regimenPortlet">
-	<div id="regimenPortletCurrent">
+	<div id="regimenPortlregimenPortletAddFormetCurrent">
 		<div class="boxHeader${model.patientVariation}">
 			<openmrs:message code="DrugOrder.regimens.current" />
 		</div>
@@ -113,7 +113,7 @@
 									<table class="patientAddFlexibleTable">
 										<tr class="patientAddFlexibleRow">
 											<td colspan="2" class="patientAddFlexibleData"><strong><openmrs:message
-														code="DrugOrder.regimens.addCustom" /></strong></td>
+											    code="DrugOrder.regimens.addCustom" /></strong></td>
 										</tr>
 										<tr class="patientAddFlexibleRow">
 											<td class="patientAddFlexibleData"><openmrs:message
@@ -144,7 +144,7 @@
 												<select name="frequencyDay" id="frequencyDay">
 													<% for ( int i = 1; i <= 10; i++ ) { %>
 													<option
-														value="<%= i %>/<openmrs:message code="DrugOrder.frequency.day" />"><%= i %>/
+														value="<%= i %>/<openmrs:message code="DrugOrder.frequency.day" />"><%= i %>-
 														<openmrs:message code="DrugOrder.frequency.day" /></option>
 													<% } %>
 											</select> <span class="patientAddFlexibleDataSpan"> x </span> <select
@@ -153,7 +153,7 @@
 														key="dashboard.regimen.displayFrequencies"
 														listSeparator="," />
 													<c:if test="${empty drugFrequencies}">
-														<option disabled>&nbsp;
+														<option value="-">&nbsp;
 															<openmrs:message
 																code="DrugOrder.add.error.missingFrequency.interactions"
 																arguments="dashboard.regimen.displayFrequencies" /></option>
@@ -220,12 +220,15 @@
 				</table>
 			</div>
 			<div id="regimenPortletModifyForm"
-				style="display: none; border: 1px dashed black; padding: 10px;">
-				<table width="100%" class="patientRegimenTable">
-					
+				style="display: none; border: 2px solid black; padding: 5px;">
+				
+				<table width="100%" class="patientRegimenTable">										
 				</table>
-
-
+				
+				<table width="100%" class="patientRegimenTable">
+					<tr class="patientRegimenRow">
+				</table>
+				
 				<td valign="top" align="right" class="patientRegimeDataFlexible">
 					<div id="regimenPortletAddFlexible">
 						<form method="post" id="orderForm"
@@ -241,7 +244,7 @@
 										<select name="drug" id="drug">
 										<% for ( int i = 1; i <= 10; i++ ) { %>
 											<option
-												value="<%= i %>/<openmrs:message code="DrugOrder.drug" />"><%= i %>/
+												value="<%= i %>/<openmrs:message code="DrugOrder.drug" />"><%= i %> -
 												<openmrs:message code="DrugOrder.drug" /></option>
 											<% } %></select>
 									</td>
@@ -252,7 +255,7 @@
 									<td class="patientAddFlexibleData"><openmrs:fieldGen
 											type="java.lang.Integer" formFieldName="dose" val=""
 											parameters="noBind=true" /> <span id="unitsSpan"></span> <input
-										type="hidden" id="units" name="units" value="" /></td>
+										type="hidden" id="units" name="units" value="mg" /></td>
 								</tr>
 								<tr class="patientAddFlexibleRow">
 									<td class="patientAddFlexibleData"><openmrs:message
@@ -262,7 +265,7 @@
 										<select name="frequencyDay" id="frequencyDay">
 											<% for ( int i = 1; i <= 10; i++ ) { %>
 											<option
-												value="<%= i %>/<openmrs:message code="DrugOrder.frequency.day" />"><%= i %>/
+												value="<%= i %>/<openmrs:message code="DrugOrder.frequency.day" />"><%= i %> -
 												<openmrs:message code="DrugOrder.frequency.day" /></option>
 											<% } %>
 									</select> <span class="patientAddFlexibleDataSpan"> x </span> <select
@@ -280,28 +283,17 @@
 													<option value="${drugFrequency}">${drugFrequency}</option>
 												</c:forEach>
 											</c:if>
-
 									</select>
 									</td>
 								</tr>
 								<tr class="patientAddFlexibleDateRow">
-									<td class="patientAddFlexibleDate"><openmrs:message
-											code="general.dateStart" /></td>
-									<td class="patientAddFlexibleDate"><openmrs:fieldGen
-											type="java.util.Date" formFieldName="startDate" val=""
-											parameters="noBind=false" />
-									</td>
-								</tr>
-								<table width="100%" class="patientRegimenTable">
-								
-									
-											<tr id="reasNew" style="display: none">
-									<td class="patientRegimenReasonMsg"><openmrs:message
-											code="general.reason" />:</td>
-									<td class="patientRegimenReasonSelect"><select
-										name="reasonNew" id="reasonNew"></select></td>
-								
-									</tr>
+											<td class="patientAddFlexibleDate"><openmrs:message
+													code="general.dateStart" /></td>
+											<td class="patientAddFlexibleDate"><openmrs:fieldGen
+													type="java.util.Date" formFieldName="start_Date" val=""
+													parameters="noBind=true" /></td>
+										</tr>									
+								<table width="100%" class="patientRegimenTable">										
 								</table>	
 								
 								<tr>
@@ -309,11 +301,12 @@
 											<input type="button" value="<openmrs:message code="general.add" />" onClick="addNewDrugOrder();">
 											<input type="button" value="<openmrs:message code="general.cancel" />" onClick="cancelNewOrder();">
 								</tr>
+								
 								<tr class="patientAddFlexibleButtonRow">
 									<td colspan="2" align="center"
 										class="patientAddFlexibleButtonData"><span
 										id="replaceNew" style="display: none"><input
-											type="button"
+											type="button" value="Modify"
 											value="<openmrs:message code="DrugOrder.regimen.addAndReplace" />"
 											onClick="addNewDrugOrder();"></span> <span id="addNew"
 										style="display: none"><input type="button"
@@ -562,7 +555,7 @@
 		//register an autocomplete feature to the drug input test field
 		addAutoComplete('drugDisplay', 'drug', new CreateCallback().drugCallback(), 'drugId', '<openmrs:message code="ConceptDrug.enterName" />', setUnitsField);
 
-		// end -->
+		// end 
 		
 	</script>
 </div>
