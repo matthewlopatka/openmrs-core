@@ -221,7 +221,6 @@
 			</div>
 			<div id="regimenPortletModifyForm"
 				style="display: none; border: 2px solid black; padding: 5px;">
-				
 				<table width="100%" class="patientRegimenTable">										
 				</table>
 				
@@ -241,12 +240,8 @@
 									<td class="patientAddFlexibleData"><openmrs:message
 											code="DrugOrder.drug" /></td>
 									<td class="patientAddFlexibleData">
-										<select name="drug" id="drug">
-										<% for ( int i = 1; i <= 10; i++ ) { %>
-											<option
-												value="<%= i %>/<openmrs:message code="DrugOrder.drug" />"><%= i %> -
-												<openmrs:message code="DrugOrder.drug" /></option>
-											<% } %></select>
+										<select name="drug" id="drug"
+										parameters="displayDrugSetIds=${model.displayDrugSetIds},*|displayFutureRegimens=true"></select>
 									</td>
 								</tr>
 								
@@ -293,13 +288,12 @@
 													type="java.util.Date" formFieldName="start_Date" val=""
 													parameters="noBind=true" /></td>
 										</tr>									
-								<table width="100%" class="patientRegimenTable">										
+																
 								</table>	
-								
+								<table class="patientRegimenTable">
 								<tr>
-											<input type="button" value="Modify" onClick="addNewDrugOrder();">
-											<input type="button" value="<openmrs:message code="general.add" />" onClick="addNewDrugOrder();">
-											<input type="button" value="<openmrs:message code="general.cancel" />" onClick="cancelNewOrder();">
+											<input type="button" value="Modify" onClick="modifyDrugOrder();">
+											<input type="reset" value="Reset">
 								</tr>
 								
 								<tr class="patientAddFlexibleButtonRow">
@@ -378,7 +372,18 @@
 			hideDiv("cancelNew");
 			showHideOtherStandards("New");
 		}
-		
+		//cancel modify 
+		function cancelModifyOrder() {
+			blankAddNewOrder('drug', 'brandName', 'dose', 'units', 'frequencyDay', 'frequencyWeek', 'start_Date');
+			dwr.util.setValue('drugDisplay','');
+			dwr.util.setValue("unitsSpan", '');
+			hideDiv("addNew");
+			hideDiv("actionNew");
+			hideDiv("reasNew");
+			hideDiv("replaceNew");
+			hideDiv("cancelNew");
+			showHideOtherStandards("New");
+		}
 		<c:if test="${not empty model.standardRegimens}">
 
 			function selectStandard(codeName) {
@@ -504,6 +509,46 @@
 			var action = dwr.util.getValue('actionSelectNew');
 			var reason = dwr.util.getValue('reasonNew');
 			var startDate = dwr.util.getValue('startDate');
+			var drugId = dwr.util.getValue('drug');
+			var brandName =  dwr.util.getValue('brandName');
+			var dose = dwr.util.getValue('dose');
+			var units = dwr.util.getValue('units');
+			var freqDay = dwr.util.getValue('frequencyDay');
+			var freqWeek = dwr.util.getValue('frequencyWeek');
+			if ( validateNewOrder(drugId, brandName, dose, units, freqDay, freqWeek, startDate) ) {
+				dwr.util.setValue('actionSelectNew', '');
+				dwr.util.setValue('reasonNew', '');
+				if ( action == 'void' ) {
+					DWROrderService.voidCurrentDrugOrders(<c:out value="${model.patientId}" />, reason, addNewComponent);
+					showHideDiv('reasNew');
+					showHideDiv('replaceNew');
+				} else if ( action == 'discontinue' ) {
+					DWROrderService.discontinueCurrentDrugOrders(<c:out value="${model.patientId}" />, reason, startDate, addNewComponent);
+					showHideDiv('reasNew');
+					showHideDiv('replaceNew');
+				} else if ( action == 'add') {
+					showHideDiv('addNew');
+					addNewComponent();
+				}
+				hideDiv('cancelNew');
+				hideDiv('actionNew');
+				dwr.util.setValue('drugDisplay','');
+				dwr.util.setValue("unitsSpan", '');
+				showHideOtherStandards("New");
+			} else {
+				if ( drugId == '' ) alert("<openmrs:message code="DrugOrder.add.error.missingDrug" />");
+				else if ( dose == '' ) alert("<openmrs:message code="DrugOrder.add.error.missingDose" />");
+				else if ( units == '' ) alert("<openmrs:message code="DrugOrder.add.error.missingUnits" />");
+				else if ( freqDay == '' ) alert("<openmrs:message code="DrugOrder.add.error.missingFrequency" />");
+				else if ( freqWeek == '' ) alert("<openmrs:message code="DrugOrder.add.error.missingFrequency" />");
+				else if ( startDate == '' ) alert("<openmrs:message code="DrugOrder.add.error.missingStartDate" />");
+			}
+		}
+//Modify function 
+		function modifyDrugOrder() {
+			var action = dwr.util.getValue('actionSelectNew');
+			var reason = dwr.util.getValue('reasonNew');
+			var startDate = dwr.util.getValue('start_Date');
 			var drugId = dwr.util.getValue('drug');
 			var brandName =  dwr.util.getValue('brandName');
 			var dose = dwr.util.getValue('dose');
